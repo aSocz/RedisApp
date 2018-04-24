@@ -11,9 +11,10 @@ using System;
 namespace RedisApp.Migrations
 {
     [DbContext(typeof(RedisAppContext))]
-    partial class RedisAppContextModelSnapshot : ModelSnapshot
+    [Migration("20180424000035_adds_is_required_to_quantity")]
+    partial class adds_is_required_to_quantity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

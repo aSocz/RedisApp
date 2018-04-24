@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SportsStore.Domain.Entities
+namespace RedisApp.Domain.Entities
 {
     public class Order
     {
@@ -9,6 +10,8 @@ namespace SportsStore.Domain.Entities
         public string Street { get; set; }
         public string City { get; set; }
         public string Voivodeship { get; set; }
+        public string Country { get; set; }
+        public DateTime Date { get; set; }
         public virtual ICollection<OrderItem> Items { get; }
     }
 }

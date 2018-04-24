@@ -11,9 +11,10 @@ using System;
 namespace RedisApp.Migrations
 {
     [DbContext(typeof(RedisAppContext))]
-    partial class RedisAppContextModelSnapshot : ModelSnapshot
+    [Migration("20180423215837_adds_producer_to_product")]
+    partial class adds_producer_to_product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,21 +45,18 @@ namespace RedisApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("City")
-                        .HasMaxLength(50);
+                        .HasMaxLength(20);
 
                     b.Property<string>("ClientName")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Country")
                         .HasMaxLength(50);
 
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Street")
-                        .HasMaxLength(50);
+                        .HasMaxLength(20);
 
                     b.Property<string>("Voivodeship")
-                        .HasMaxLength(50);
+                        .HasMaxLength(20);
 
                     b.HasKey("OrderId");
 
@@ -90,35 +88,14 @@ namespace RedisApp.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("RedisApp.Domain.Entities.Producer", b =>
-                {
-                    b.Property<int>("ProducerId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.HasKey("ProducerId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Producers");
-                });
-
-            modelBuilder.Entity("RedisApp.Domain.Entities.Product", b =>
+            modelBuilder.Entity("SportsStore.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CategoryId");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -127,13 +104,11 @@ namespace RedisApp.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(8,2)");
 
-                    b.Property<int>("ProducerId");
+                    b.Property<string>("Producer");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProducerId");
 
                     b.HasIndex("Name", "CategoryId")
                         .IsUnique();
@@ -148,22 +123,17 @@ namespace RedisApp.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RedisApp.Domain.Entities.Product", "Product")
+                    b.HasOne("SportsStore.Domain.Entities.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("RedisApp.Domain.Entities.Product", b =>
+            modelBuilder.Entity("SportsStore.Domain.Entities.Product", b =>
                 {
                     b.HasOne("RedisApp.Domain.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("RedisApp.Domain.Entities.Producer", "Producer")
-                        .WithMany("Products")
-                        .HasForeignKey("ProducerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

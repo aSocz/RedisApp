@@ -11,9 +11,10 @@ using System;
 namespace RedisApp.Migrations
 {
     [DbContext(typeof(RedisAppContext))]
-    partial class RedisAppContextModelSnapshot : ModelSnapshot
+    [Migration("20180423221534_adds_producer_table")]
+    partial class adds_producer_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,21 +45,18 @@ namespace RedisApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("City")
-                        .HasMaxLength(50);
+                        .HasMaxLength(20);
 
                     b.Property<string>("ClientName")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Country")
                         .HasMaxLength(50);
 
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Street")
-                        .HasMaxLength(50);
+                        .HasMaxLength(20);
 
                     b.Property<string>("Voivodeship")
-                        .HasMaxLength(50);
+                        .HasMaxLength(20);
 
                     b.HasKey("OrderId");
 
@@ -109,7 +107,7 @@ namespace RedisApp.Migrations
                     b.ToTable("Producers");
                 });
 
-            modelBuilder.Entity("RedisApp.Domain.Entities.Product", b =>
+            modelBuilder.Entity("SportsStore.Domain.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd();
@@ -148,13 +146,13 @@ namespace RedisApp.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RedisApp.Domain.Entities.Product", "Product")
+                    b.HasOne("SportsStore.Domain.Entities.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("RedisApp.Domain.Entities.Product", b =>
+            modelBuilder.Entity("SportsStore.Domain.Entities.Product", b =>
                 {
                     b.HasOne("RedisApp.Domain.Entities.Category", "Category")
                         .WithMany("Products")

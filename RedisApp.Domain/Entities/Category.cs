@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SportsStore.Domain.Entities
+namespace RedisApp.Domain.Entities
 {
     public class Category
     {
