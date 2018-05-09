@@ -1,11 +1,9 @@
-﻿using System;
+﻿using RedisApp.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Text;
-using RedisApp.Domain.Entities;
 
 namespace RedisApp.Sandbox
 {
@@ -32,7 +30,7 @@ namespace RedisApp.Sandbox
                 rows.Add(new DataRow(quantity, productId, orderId)); //ensuring there are no duplicates
             }
 
-            foreach (var row in rows.Select((r, i) => new {r, i}))
+            foreach (var row in rows.Select((r, i) => new { r, i }))
             {
                 dt.Rows.Add(row.i, row.r.OrderId, row.r.ProductId, row.r.Quantity);
             }

@@ -105,7 +105,7 @@ namespace RedisApp.Migrations
             modelBuilder.Entity("SportsStore.Domain.Entities.OrderItem", b =>
                 {
                     b.HasOne("SportsStore.Domain.Entities.Order", "Order")
-                        .WithMany("Items")
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
