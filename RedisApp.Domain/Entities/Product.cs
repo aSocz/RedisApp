@@ -1,4 +1,6 @@
-﻿namespace RedisApp.Domain.Entities
+﻿using System.Collections.Generic;
+
+namespace RedisApp.Domain.Entities
 {
     public class Product
     {
@@ -8,9 +10,9 @@
         public decimal Price { get; set; }
         public int ProducerId { get; set; }
         public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
-        public virtual Producer Producer { get; set; }
-        //public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public Category Category { get; set; }
+        public Producer Producer { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
 
     }
 }

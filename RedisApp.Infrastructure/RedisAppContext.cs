@@ -5,11 +5,19 @@ namespace RedisApp.Infrastructure
 {
     public class RedisAppContext : DbContext
     {
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<OrderItem> OrderItems { get; set; }
-        public virtual DbSet<Producer> Producers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Producer> Producers { get; set; }
+
+        public RedisAppContext()
+        {
+        }
+
+        public RedisAppContext(DbContextOptions<RedisAppContext> options)
+            : base(options)
+        { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,7 +38,7 @@ namespace RedisApp.Infrastructure
         private static void SetupOrderItemTable(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OrderItem>().HasKey(cl => cl.OrderItemId);
-            //modelBuilder.Entity<OrderItem>().HasOne(oi => oi.Product).WithMany(p => p.OrderItems).IsRequired();
+            modelBuilder.Entity<OrderItem>().HasOne(oi => oi.Product).WithMany(p => p.OrderItems).IsRequired();
             modelBuilder.Entity<OrderItem>().HasOne(oi => oi.Order).WithMany(p => p.OrderItems).IsRequired();
             modelBuilder.Entity<OrderItem>().Property(oi => oi.Quantity).IsRequired();
             modelBuilder.Entity<OrderItem>().HasIndex(oi => new { oi.ProductId, oi.OrderId }).IsUnique();
@@ -59,11 +67,11 @@ namespace RedisApp.Infrastructure
         private static void SetupProductTable(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>().HasKey(e => e.ProductId);
-            //modelBuilder.Entity<Product>().HasOne(p => p.Producer).WithMany(p => p.Products).IsRequired();
+            modelBuilder.Entity<Product>().HasOne(p => p.Producer).WithMany(p => p.Products).IsRequired();
             modelBuilder.Entity<Product>().Property(e => e.Name).HasMaxLength(50).IsRequired();
             modelBuilder.Entity<Product>().Property(e => e.Description).HasMaxLength(255).IsRequired();
             modelBuilder.Entity<Product>().Property(e => e.Price).HasColumnType("decimal(8,2)").IsRequired();
-            //modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).IsRequired();
+            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).IsRequired();
             modelBuilder.Entity<Product>()
                         .HasIndex(p => new { p.Name, p.CategoryId })
                         .IsUnique();
