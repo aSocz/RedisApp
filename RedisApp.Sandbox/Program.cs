@@ -6,9 +6,9 @@
         {
             //var orderLoader = new OrderLoader();
             //orderLoader.CreateOrderItems();
-            var redisUploader = new RedisUploader();
+            //var redisUploader = new RedisUploader();
             //redisUploader.UploadData();
-            redisUploader.Test();
+            //redisUploader.Test();
         }
     }
 }

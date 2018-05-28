@@ -8,6 +8,6 @@ namespace RedisApp.Domain.Entities
         public int ProducerId { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

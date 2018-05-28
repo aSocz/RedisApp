@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using RedisApp.Infrastructure;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RedisApp.Sandbox
@@ -58,20 +60,26 @@ namespace RedisApp.Sandbox
                                   .Include(o => o.OrderItems)
                                       .ThenInclude(i => i.Product)
                                       .ThenInclude(p => p.Category)
-                                  .ToList();
-            var counter = 0;
-            orders.ForEach(
-                o =>
-                {
-                    Database.StringSet(
-                        "order_" + o.OrderId.ToString(),
-                        JsonConvert.SerializeObject(
-                            o,
-                            Formatting.Indented,
-                            new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                    Console.WriteLine(counter++);
-                });
+                                  .ToList()
+                                  .Select(
+                                       o => new KeyValuePair<RedisKey, RedisValue>(
+                                           "order_" + o.OrderId.ToString(),
+                                           JsonConvert.SerializeObject(
+                                               o,
+                                               Formatting.Indented,
+                                               new JsonSerializerSettings
+                                               {
+                                                   ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                               })))
+                                  .ToArray();
 
+            var sw = new Stopwatch();
+            sw.Start();
+
+            Database.StringSet(orders);
+
+            sw.Stop();
+            Console.WriteLine($"Adding data to Redis database. Elapsed time: {sw.ElapsedMilliseconds}ms");
         }
 
         public void Dispose()

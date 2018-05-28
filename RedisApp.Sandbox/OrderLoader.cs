@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RedisApp.Sandbox
@@ -35,11 +36,17 @@ namespace RedisApp.Sandbox
                 dt.Rows.Add(row.i, row.r.OrderId, row.r.ProductId, row.r.Quantity);
             }
 
+            var sw = new Stopwatch();
+            sw.Start();
+
             using (var sqlBulk = new SqlBulkCopy("Data Source=.;Initial Catalog=RedisApp;Integrated Security=SSPI;"))
             {
                 sqlBulk.DestinationTableName = "RedisApp.OrderItems";
                 sqlBulk.WriteToServer(dt);
             }
+
+            sw.Stop();
+            Console.WriteLine($"Adding data to SQL database. Elapsed time: {sw.ElapsedMilliseconds}ms");
         }
     }
 }

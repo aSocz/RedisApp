@@ -12,6 +12,6 @@ namespace RedisApp.Domain.Entities
         public string Voivodeship { get; set; }
         public string Country { get; set; }
         public DateTime Date { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }
